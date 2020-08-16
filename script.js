@@ -1,3 +1,5 @@
+// End game
+
 const dom = (() => {
   return {
     squares: document.querySelectorAll('.square'),
@@ -39,6 +41,7 @@ const display = (() => {
 
 const game = (() => {
   let currentPlayer = 'X';
+  let winner;
 
   const _changeCurrentPlayer = () => {
     currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
@@ -48,7 +51,10 @@ const game = (() => {
     let domSquaresArr = [...dom.squares];
     let squareIndex = domSquaresArr.indexOf(e.target);
     if (board.updateSquare(squareIndex, currentPlayer)) {
-      _changeCurrentPlayer();
+      _checkWinner();
+      if (!winner) {
+        _changeCurrentPlayer();
+      }
     }
   };
 
@@ -56,6 +62,53 @@ const game = (() => {
     dom.squares.forEach((domSquare) => {
       domSquare.addEventListener('click', _domSquareClick);
     });
+  };
+
+  const _declareWinner = (winner) => {
+    if (winner === 'Draw') {
+      alert(`It's a draw!`);
+    } else {
+      alert(`${winner} is the winner!`);
+    }
+  };
+
+  const _isDraw = () => {
+    return board.squaresValues.every((squareValue) => Boolean(squareValue));
+  };
+
+  const _isCompleteLine = () => {
+    let squaresValues = board.squaresValues;
+    let lines = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+    for (let line of lines) {
+      let [a, b, c] = line;
+      if (
+        squaresValues[a] &&
+        squaresValues[a] === squaresValues[b] &&
+        squaresValues[a] === squaresValues[c]
+      ) {
+        return true;
+      }
+    }
+  };
+
+  const _checkWinner = () => {
+    if (_isDraw()) {
+      winner = 'Draw';
+    } else if (_isCompleteLine()) {
+      winner = currentPlayer;
+    }
+    if (winner) {
+      _declareWinner(winner);
+    }
   };
 
   const init = () => {
