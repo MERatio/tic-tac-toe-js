@@ -1,26 +1,30 @@
 const dom = (() => {
   return {
     squares: document.querySelectorAll('.square'),
+    newGame: document.querySelector('.new-game'),
   };
 })();
 
 const board = (() => {
-  let squaresValues = Array(9).fill('');
+  let squaresValues;
 
   const _isSquareEmpty = (index) => squaresValues[index] === '';
 
   const getSquaresValues = () => squaresValues;
 
-  let updateSquare = (index, player) => {
+  const updateSquare = (index, player) => {
     if (_isSquareEmpty(index)) {
       squaresValues[index] = player;
       return true;
     }
   };
 
+  const resetSquaresValues = () => (squaresValues = Array(9).fill(''));
+
   return {
     getSquaresValues,
     updateSquare,
+    resetSquaresValues,
   };
 })();
 
@@ -39,7 +43,7 @@ const display = (() => {
 })();
 
 const game = (() => {
-  let currentPlayer = 'X';
+  let currentPlayer;
   let winner;
 
   const _changeCurrentPlayer = () => {
@@ -63,6 +67,7 @@ const game = (() => {
     dom.squares.forEach((domSquare) => {
       domSquare.addEventListener('click', _domSquareClick);
     });
+    dom.newGame.addEventListener('click', init);
   };
 
   const _declareWinner = (winner) => {
@@ -127,8 +132,18 @@ const game = (() => {
     }
   };
 
+  const _removeSquaresDisablePointerEvents = () => {
+    for (let domSquare of dom.squares) {
+      domSquare.classList.remove('disable-pointer-events');
+    }
+  };
+
   const init = () => {
+    currentPlayer = 'X';
+    winner = null;
+    board.resetSquaresValues();
     display.populateSquare();
+    _removeSquaresDisablePointerEvents();
     _attachEvents();
   };
 

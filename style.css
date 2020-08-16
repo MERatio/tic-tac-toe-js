@@ -10,12 +10,18 @@ body {
   background-color: #808080;
 }
 
+button {
+  border: none;
+  cursor: pointer;
+}
+
 .disable-pointer-events {
   pointer-events: none;
 }
 
 .container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -32,22 +38,35 @@ body {
   gap: 5px;
 }
 
-.square {
-  font-size: 5rem;
-  background-color: #ccc;
-  border: none;
-  cursor: pointer;
+.btn {
   transition: all 0.2s;
 }
 
-.square:hover {
+.btn:hover {
   background-color: #fff;
 }
 
-.square:focus {
+.btn:focus {
   outline: 2px solid #3498db;
 }
 
-.square:active {
+.btn:active {
   transform: scale(0.9);
+}
+
+.square {
+  font-size: 5rem;
+  background-color: #ccc;
+}
+
+.options {
+  margin-top: 1.5rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.new-game {
+  width: 100px;
+  height: 40px;
 }
