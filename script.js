@@ -9,6 +9,8 @@ const board = (() => {
 
   const _isSquareEmpty = (index) => squaresValues[index] === '';
 
+  const getSquaresValues = () => squaresValues;
+
   let updateSquare = (index, player) => {
     if (_isSquareEmpty(index)) {
       squaresValues[index] = player;
@@ -17,14 +19,14 @@ const board = (() => {
   };
 
   return {
-    squaresValues,
+    getSquaresValues,
     updateSquare,
   };
 })();
 
 const display = (() => {
   const populateSquare = () => {
-    let squaresValues = board.squaresValues;
+    let squaresValues = board.getSquaresValues();
     let domSquares = dom.squares;
     for (let i = 0; i < 9; i++) {
       domSquares[i].innerHTML = squaresValues[i];
@@ -72,11 +74,13 @@ const game = (() => {
   };
 
   const _isDraw = () => {
-    return board.squaresValues.every((squareValue) => Boolean(squareValue));
+    return board
+      .getSquaresValues()
+      .every((squareValue) => Boolean(squareValue));
   };
 
   const _isCompleteLine = () => {
-    let squaresValues = board.squaresValues;
+    let squaresValues = board.getSquaresValues();
     let lines = [
       [0, 1, 2],
       [3, 4, 5],
