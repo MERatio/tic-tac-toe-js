@@ -103,11 +103,15 @@ const game = (() => {
   };
 
   const _declareWinner = (winner) => {
+    let text;
     if (winner === 'Draw') {
-      alert(`It's a draw!`);
+      text = `It's a draw!`;
     } else {
-      alert(`${winner.name} wins!`);
+      text = `${winner.name} wins!`;
     }
+    setTimeout(() => {
+      alert(text);
+    }, 10);
   };
 
   const _isDraw = () => {
