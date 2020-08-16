@@ -10,6 +10,10 @@ body {
   background-color: #808080;
 }
 
+.disable-pointer-events {
+  pointer-events: none;
+}
+
 .container {
   display: flex;
   justify-content: center;

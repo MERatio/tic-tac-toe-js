@@ -51,6 +51,7 @@ const game = (() => {
     let domSquaresArr = [...dom.squares];
     let squareIndex = domSquaresArr.indexOf(e.target);
     if (board.updateSquare(squareIndex, currentPlayer)) {
+      _disableSquare(squareIndex);
       _checkWinner();
       if (!winner) {
         _changeCurrentPlayer();
@@ -109,6 +110,12 @@ const game = (() => {
     if (winner) {
       _declareWinner(winner);
     }
+  };
+
+  const _disableSquare = (index) => {
+    let domSquare = dom.squares[index];
+    domSquare.classList.add('disable-pointer-events');
+    domSquare.removeEventListener('click', _domSquareClick);
   };
 
   const init = () => {
