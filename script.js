@@ -1,8 +1,8 @@
 const dom = (() => {
   return {
     squares: document.querySelectorAll('.square'),
-    newGame: document.querySelector('.new-game'),
-    resetGame: document.querySelector('.reset-game'),
+    newGame: document.getElementById('newGame'),
+    resetGame: document.getElementById('resetGame'),
   };
 })();
 
@@ -45,7 +45,7 @@ const display = (() => {
 
 const game = (() => {
   let playerX;
-  let playerY;
+  let playerO;
   let currentPlayer;
   let winner;
 
@@ -70,8 +70,8 @@ const game = (() => {
     dom.squares.forEach((domSquare) => {
       domSquare.addEventListener('click', _domSquareClick);
     });
-    dom.newGame.addEventListener('click', () => init('newGame'));
-    dom.resetGame.addEventListener('click', () => init('resetGame'));
+    dom.newGame.addEventListener('click', _newGame);
+    dom.resetGame.addEventListener('click', _resetGame);
   };
 
   const _declareWinner = (winner) => {
@@ -160,6 +160,10 @@ const game = (() => {
     playerX = player(playerXName, 'X');
     playerO = player(playerOName, 'O');
   };
+
+  const _newGame = () => init('newGame');
+
+  const _resetGame = () => init('resetGame');
 
   const init = (option) => {
     if (option === 'newGame') {

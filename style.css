@@ -71,6 +71,6 @@ button {
   height: 40px;
 }
 
-.new-game {
+#newGame {
   margin-right: 1rem;
 }
