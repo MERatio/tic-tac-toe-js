@@ -12,7 +12,6 @@ const board = (() => {
   let updateSquare = (index, player) => {
     if (_isSquareEmpty(index)) {
       squaresValues[index] = player;
-      display.populateSquare();
       return true;
     }
   };
@@ -49,6 +48,7 @@ const game = (() => {
     let domSquaresArr = [...dom.squares];
     let squareIndex = domSquaresArr.indexOf(e.target);
     if (board.updateSquare(squareIndex, currentPlayer)) {
+      display.populateSquare();
       _disableSquare(squareIndex);
       _checkWinner();
       if (!winner) {
