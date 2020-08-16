@@ -14,7 +14,7 @@ const board = (() => {
 
   const updateSquare = (index, player) => {
     if (_isSquareEmpty(index)) {
-      squaresValues[index] = player;
+      squaresValues[index] = player.option;
       return true;
     }
   };
@@ -43,11 +43,13 @@ const display = (() => {
 })();
 
 const game = (() => {
+  let playerX;
+  let playerY;
   let currentPlayer;
   let winner;
 
   const _changeCurrentPlayer = () => {
-    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    currentPlayer = currentPlayer === playerX ? playerO : playerX;
   };
 
   const _domSquareClick = (e) => {
@@ -74,7 +76,7 @@ const game = (() => {
     if (winner === 'Draw') {
       alert(`It's a draw!`);
     } else {
-      alert(`${winner} is the winner!`);
+      alert(`${winner.name} wins!`);
     }
   };
 
@@ -138,8 +140,28 @@ const game = (() => {
     }
   };
 
+  const _promptPlayerName = (option) => {
+    let playerName;
+    do {
+      playerName = prompt(`Player ${option} name?`, '');
+    } while (
+      playerName === null ||
+      playerName.length < 1 ||
+      playerName.startsWith(' ')
+    );
+    return playerName;
+  };
+
+  const _askPlayerInfo = () => {
+    let playerXName = _promptPlayerName('X');
+    let playerOName = _promptPlayerName('O');
+    playerX = player(playerXName, 'X');
+    playerO = player(playerOName, 'O');
+  };
+
   const init = () => {
-    currentPlayer = 'X';
+    _askPlayerInfo();
+    currentPlayer = playerX;
     winner = null;
     board.resetSquaresValues();
     display.populateSquare();
@@ -151,5 +173,12 @@ const game = (() => {
     init,
   };
 })();
+
+const player = (name, option) => {
+  return {
+    name,
+    option,
+  };
+};
 
 game.init();
