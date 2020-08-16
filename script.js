@@ -1,5 +1,3 @@
-// End game
-
 const dom = (() => {
   return {
     squares: document.querySelectorAll('.square'),
@@ -108,6 +106,7 @@ const game = (() => {
       winner = currentPlayer;
     }
     if (winner) {
+      _disableAllSquare();
       _declareWinner(winner);
     }
   };
@@ -116,6 +115,12 @@ const game = (() => {
     let domSquare = dom.squares[index];
     domSquare.classList.add('disable-pointer-events');
     domSquare.removeEventListener('click', _domSquareClick);
+  };
+
+  const _disableAllSquare = () => {
+    for (let i = 0; i < 9; i++) {
+      _disableSquare(i);
+    }
   };
 
   const init = () => {
