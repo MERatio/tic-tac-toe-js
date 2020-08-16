@@ -100,10 +100,10 @@ const game = (() => {
   };
 
   const _checkWinner = () => {
-    if (_isDraw()) {
-      winner = 'Draw';
-    } else if (_isCompleteLine()) {
+    if (_isCompleteLine()) {
       winner = currentPlayer;
+    } else if (_isDraw()) {
+      winner = 'Draw';
     }
     if (winner) {
       _disableAllSquare();
