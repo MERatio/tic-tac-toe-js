@@ -59,6 +59,19 @@ button {
   background-color: #ccc;
 }
 
+.info {
+  width: 100%;
+  max-width: 500px;
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.playerX {
+  margin-bottom: 5px;
+}
+
 .options {
   margin-top: 1.5rem;
   width: 100%;

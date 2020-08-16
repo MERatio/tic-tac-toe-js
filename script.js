@@ -3,6 +3,11 @@ const dom = (() => {
     squares: document.querySelectorAll('.square'),
     newGame: document.getElementById('newGame'),
     resetGame: document.getElementById('resetGame'),
+    playerXName: document.getElementById('playerXName'),
+    playerXScore: document.getElementById('playerXScore'),
+    playerOName: document.getElementById('playerOName'),
+    playerOScore: document.getElementById('playerOScore'),
+    currentPlayer: document.getElementById('currentPlayer'),
   };
 })();
 
@@ -38,8 +43,30 @@ const display = (() => {
     }
   };
 
+  const setPlayerName = (playerXName, playerOName) => {
+    dom.playerXName.innerHTML = playerXName;
+    dom.playerOName.innerHTML = playerOName;
+  };
+
+  const setPlayerScore = (playerXScore, playerOScore) => {
+    dom.playerXScore.innerHTML = playerXScore;
+    dom.playerOScore.innerHTML = playerOScore;
+  };
+
+  const setCurrentPlayer = (player) => {
+    dom.currentPlayer.innerHTML = `${player.name}(${player.option}) turn`;
+  };
+
+  const removeCurrentPlayerContent = () => {
+    dom.currentPlayer.innerHTML = '';
+  };
+
   return {
     populateSquare,
+    setPlayerName,
+    setPlayerScore,
+    setCurrentPlayer,
+    removeCurrentPlayerContent,
   };
 })();
 
@@ -62,6 +89,7 @@ const game = (() => {
       _checkWinner();
       if (!winner) {
         _changeCurrentPlayer();
+        display.setCurrentPlayer(currentPlayer);
       }
     }
   };
@@ -120,9 +148,14 @@ const game = (() => {
     }
     if (winner) {
       _disableAllSquare();
+      display.removeCurrentPlayerContent();
+      _addPlayerPoint(winner);
+      display.setPlayerScore(playerX.score, playerO.score);
       _declareWinner(winner);
     }
   };
+
+  const _addPlayerPoint = (winner) => (winner.score += 1);
 
   const _disableSquare = (index) => {
     let domSquare = dom.squares[index];
@@ -166,15 +199,20 @@ const game = (() => {
   const _resetGame = () => init('resetGame');
 
   const init = (option) => {
-    if (option === 'newGame') {
-      _askPlayerInfo();
-    }
-    currentPlayer = playerX;
     winner = null;
     board.resetSquaresValues();
     display.populateSquare();
     _removeSquaresDisablePointerEvents();
     _attachEvents();
+    if (option === 'newGame') {
+      display.setPlayerName('', '');
+      display.setPlayerScore(0, 0);
+      display.removeCurrentPlayerContent();
+      _askPlayerInfo();
+      display.setPlayerName(playerX.name, playerO.name);
+    }
+    currentPlayer = playerX;
+    display.setCurrentPlayer(currentPlayer);
   };
 
   return {
@@ -186,6 +224,7 @@ const player = (name, option) => {
   return {
     name,
     option,
+    score: 0,
   };
 };
 
