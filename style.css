@@ -66,7 +66,11 @@ button {
   justify-content: center;
 }
 
-.new-game {
+.option {
   width: 100px;
   height: 40px;
+}
+
+.new-game {
+  margin-right: 1rem;
 }
